@@ -26,8 +26,12 @@ class Textos {
 
 private:
 
+  struct ultim{
+      pair <vector<string>, Text> ult;
+      vector<pair<int, string> > freq_v;
+      bool esta = false;
+  }
   map<vector<string>, list<Text> > textos;
-  Text ultim;
   map<string, Cita> Cites;
   int nAutor;
   int nText;
@@ -46,6 +50,30 @@ private:
             inicials que aquesta i n = 1, si no existeix.
   */
 	string calcular_ref(vector<string>& autor);
+
+  /** @brief La funció transforma la taula de freqüencia del ultim text triat
+              en un vector ordenat segons el segon element de la taula.
+      \pre text es vàlid.
+      \post La funció transforma la taula de freqüencia del ultim text triat
+            en un vector ordenat segons el segon element de la taula.
+  */
+  void calc_vec_freq(Text& text);
+
+  /** @brief La funció retorna un boolea que ens diu si els dos vectors itroduits
+              són iguals o no.
+      \pre t1 i t2 són valids.
+      \post el resultat es un boolea que ens diu si els dos vectors son iguals
+            o diferents.
+  */
+  bool son_iguals(vector<string>& t1, vector<string>& t2);
+
+  /** @brief La funció retorna un 1 si alfabeticament t1 va abans de t2, contrariament
+              treu un 2.
+      \pre t1 i t2 són valids.
+      \post el resultat es un 1 si alfabeticament t1 va abans de t2, contrariament
+            treu un 2.
+  */
+  int ordre(vector<string>& t1, vector<string>& t2);
 
 public:
 
@@ -83,7 +111,7 @@ public:
       \post el resultat és un vector que conté tots els textos de l'element
                   first del map textos, que es igual a autor.
   */
-	vector<Text> textos_autor(vector<string>& autor);
+	list<Text> textos_autor(vector<string>& autor);
 
   /** @brief La funció retorna l'autor del text guardat dins de la variable
               ultim, que és l'últim test triat.
@@ -94,18 +122,18 @@ public:
 	vector<string> consulta_autor();
 
   /** @brief La funció retorna el numero de frases que conté l'últim text triat,
-              eguradat dins de la variable ultim.
+              guradat dins de la variable ultim.
       \pre cert.
       \post el resultat es el nombre de frases que conté l'últim text triat,
-                  eguradat dins de la variable ultim.
+              guradat dins de la variable ultim.
   */
 	int consulta_nFrases();
 
   /** @brief La funció retorna el numero de paraules que conté l'últim text triat,
-              eguradat dins de la variable ultim.
+              guradat dins de la variable ultim.
       \pre cert.
       \post el resultat es el nombre de paraules que conté l'últim text triat,
-                  eguradat dins de la variable ultim.
+            guradat dins de la variable ultim.
   */
 	int consulta_nParaules();
 
@@ -194,7 +222,7 @@ public:
   void escriure() const;
 
 	/** @brief Operacio d'escriptura d'autors (vector<string>), el nombre de textos
-            de cada autor, i el nombre de paraules i de frases de la fitxa.
+            de cada autor, i el nombre de paraules i de frases de tots els textos.
 
 		\pre cert
 		\post s'han escrit pel canal estandard de sortida tots els autors, el nombre
@@ -207,9 +235,8 @@ public:
             i paraules que conté.
 
     \pre cert
-    \post s'han escrit pel canal estandard de sortida totes les cites que han
-          estat extretes de l'ultim text, el seu autor, titol, el nombre de
-          frases i el nombre de paraules triat.
+    \post s'han escrit pel canal estandard de sortida de l'ultim text, el seu
+          autor, titol, el nombre de frases i el nombre de paraules que conté.
    */
   void escriure_info();
 
